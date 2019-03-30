@@ -1,24 +1,26 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb  4 16:25:51 2019
+Created on Sun Feb 10 10:34:00 2019
 
-@author: 3602824
+@author: lepet
 """
+from soccersimulator import setting, utils, stategies, events, mdpsoccer, matches
+from tools import *
+
 class Move(object):
     def __init__(self, superstate):
         self.superstate = superstate
         
-    def move(seflf, acceleration=None):
+    def move(self, acceleration=None):
         return SoccerAction(acceleration= acceleration)
     
 #En attaque
     def to_ball(self):
         return self.move(self.superstate.ball_dir())
         
-        
     
     
+
     
 #En defense
         
@@ -37,6 +39,20 @@ class shoot(object):
     def to_goal(self, strenght = None):
         return self.shoot(self.superstate.goal_dir)
                   
+    def __init__(self, superstate):
+        self.superstate = superstate
+        
+class passe(object):
+    def __init__(self, superstate):
+        self.superstate = superstate
+
+    def passe(self, direction= None):
+        dist = self.superstate.player.distance(self.superstate.ball)
+        n1 = near opp
+        if dist  < PLAYER_RADIUS + BALL_RADIUS:
+             return SoccerAction(pass=direction)
+        else:
+             return SoccerAction()
 
 #En equipe
         
