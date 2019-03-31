@@ -4,7 +4,7 @@ Created on Sun Feb 10 10:34:00 2019
 
 @author: lepet
 """
-from soccersimulator import setting, utils, stategies, events, mdpsoccer, matches
+from soccersimulator import setting, utils, stategies, events, mdpsoccer, matches, superstate, tools
 from tools import *
 
 class Move(object):
@@ -18,6 +18,10 @@ class Move(object):
     def to_ball(self):
         return self.move(self.superstate.ball_dir())
         
+    def passe(self):
+		if dist < PLAYER_RADIUS + BALL_RADIUS && 
+		return SoccerAction(
+        
     
     
 
@@ -30,7 +34,6 @@ class shoot(object):
         self.superstate = superstate
 
     def shoot(self, direction=None):
-        dist = self.superstate.player.distance(self.superstate.ball)
         if dist < PLAYER_RADIUS + BALL_RADIUS:
              return SoccerAction(shoot=direction)
         else:
