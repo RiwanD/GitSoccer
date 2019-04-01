@@ -25,7 +25,8 @@ def Superstate(object):
 		
 	@property
 	def trajectoire(self):
-		return Vector2D(cage_adv - position)
+		return Vector2D(cage_adv_x - position.x, cage_adv_y - position.y)
+
 # Joueur
     @property
     def team(self):
@@ -44,12 +45,12 @@ def Superstate(object):
         return self.state.player_state(self.id_team, self.id_player).vitesse
 
 	@property
-	def nearest(self):
-		return [(player, position) for 
+	def to_ball(self):
+		return Vector2D(self.ball.x - self.position.x; self.ball.y - self.position.y)
 	
 	@property
 	def shoot_possible(self):
-		if abs(trajectoire/4 near_opp
+		if Vector2D
 
 #Equpier 
 
@@ -59,8 +60,13 @@ def Superstate(object):
 		
 	@property
 	def near_mate(self):
+		mate = self.mate
 		return min([(self.player.position.distance(player), player) for player in mate])
-
+	
+	@property
+	def near_mate_ball(self):
+		mate = self.mate
+		return min([(self.player.playerstate(self.ball), player) for player in mate])
 # Adversaire
 
     @property
@@ -69,8 +75,13 @@ def Superstate(object):
 	
 	@property
 	def near_opp(self):
+		opponents = self.opponents
 		return min([(self.player.distance(player), player) for player in opponents])
-
+	
+	@property
+	def near_mate_ball(self):
+		opponents = self.opponents
+		return min([(self.player.playerstate(self.ball), player) for player in opponents])
 # Terrain
     @property
     def cage(self):
@@ -85,6 +96,14 @@ def Superstate(object):
 			return Vector2D(GAME_WIDTH, GAME_HEIGHT/2 - BALL_RADIUS)
 		else:
 			return Vector2D(0, GAME_HEIGHT/2 + BALL_RADIUS)
+	
+	@property
+	def cage_adv_x(self):
+		return self.cage_adv()[1]
+		
+	@property
+	def cage_adv_y(self):
+		return self.cage_adv()[2]
     @property
     def cage_def(self):
         if self.state.player_state(self.id_team) == 1:
