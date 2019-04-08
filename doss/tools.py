@@ -79,6 +79,27 @@ class superstate(object):
 
 
 		#terrain
-		def cage1(self):
+		@property
+		def cageequipe1(self):
+			return Vector2D(0,GAME_HEIGHT/2 +5)
 			
+		@property
+		def cage2equipe1(self):
+			return Vector2D(0,GAME_HEIGHT/2-5)
+				
+		@property
+		def cageequipe2(self):
+			return Vector2D(GAME_WIDTH,GAME_HEIGHT/2+5)
+			
+		@property
+		def cage2equipe2(self):
+			return Vector2D(GAME_WIDTH,GAME_HEIGHT/2-5)
+			
+		@property
+		def centre(self):
+			return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2)
+			
+			
+			
+		
 		
