@@ -37,7 +37,25 @@ class Defenseur2(Strategy):
         s = superstate(state, id_team, id_player)
         move = Move(s)
         shoot = Shoot(s)
-        return move.def_Ramos()
+        return move.def_Ramos(s)
+
+
+
+class booba(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "booba")
+
+    def compute_strategy(self, state, id_team, id_player):
+        # id_team is 1 or 2
+        # id_player starts at 0
+        teta = -(state.player_state(1,0).position.x)*(state.ball.position.x)+(state.player_state(1,0).position.y)*(state.ball.position.y)
+        angle = (state.player_state(1,0).position.x - 150), (state.player_state(1,0).position.y)
+        if id_team == 1:
+            return SoccerAction(state.ball.position-state.player_state(1, 0).position,
+                   state.ball.position-state.player_state(1 ,0).position * teta)
+        else:
+            return SoccerAction(state.ball.position-state.player_state(2, 0).position,
+                   state.ball.position-state.player_state(2 ,0).position * teta)
 
 class Def(Strategy):
     def __init__(self):
@@ -45,14 +63,12 @@ class Def(Strategy):
         
     def compute_strategy(self, state, id_team, id_player):
         s = superstate(state, id_team, id_player)
-        move = Move(s)
-        shoot = Shoot(s)
-        return move.def_Ramos(def_Ramos)
-
+        if id_team == 1:
+            return s.def_ramos
     # Add players
-    team1.add("Ramos", Defenseur2())
-    team1.add("RR", Def())
-    team2.add("CR7", RandomStrategy())   
+    team1.add("Ramos", Def())
+#    team1.add("RR", Def())
+    team2.add("CR7", booba())   
 
     # Create a match
     simu = Simulation(team1, team2)

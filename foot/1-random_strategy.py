@@ -1,8 +1,8 @@
 # coding: utf-8
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
 from projet import actions, tools
-from tools import *
-from actions import *
+from projet.tools import *
+from projet.actions import *
 
 
 class RandomStrategy(Strategy):
