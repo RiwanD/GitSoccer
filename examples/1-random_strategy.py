@@ -13,7 +13,7 @@ class RandomStrategy(Strategy):
         # id_player starts at 0
         return SoccerAction(Vector2D.create_random(),
                             Vector2D.create_random())
-
+#
 
 # Create teams
 team1 = SoccerTeam(name="Team 1")

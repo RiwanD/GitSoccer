@@ -1,0 +1,4 @@
+*.pcy
+*~
+/foot/Afaire.txt
+__pycache__
