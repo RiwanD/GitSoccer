@@ -1,0 +1,11 @@
+coding: utf-8
+Mode attaque:
+- Si der joueur qui a la balle est moi attaquant reste attaquant sinon def
+- si puissance max tir < player - cage adv tirer sinon petit tir
+2e strat
+- si joueur dans le champ - petit tir aléatoir pour se deplacer
+
+Mode defense: 
+- se mettre entre la balle et les cages 
+- recherche par grill sur la position de d�fense entre 5 posittions pr�d�finies 
+
