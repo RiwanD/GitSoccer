@@ -27,7 +27,7 @@ class Move(Action):
     def __init__(self, name):
         Action.__init__(self, name)
 
-
+#
     def to_ball(self, to_ball):
             return soccersimulator.SoccerAction(acceleration = to.superstate.to_ball , shoot = None)
 #Attaquant    

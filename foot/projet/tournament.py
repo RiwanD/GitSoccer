@@ -19,7 +19,7 @@ def get_team(nb_players):
 		team.add("CR7", defenseur())
 		team.add("CR7", libero())
 	return team
-	
+#	
 	
 """	if __name__ == '__main__':
 		from soccersimulator import Simulation, show_simu

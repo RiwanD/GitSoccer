@@ -26,7 +26,7 @@ class booba(Strategy):
         else:
             return SoccerAction(state.ball.position-state.player_state(2, 0).position,
                    state.ball.position-state.player_state(2 ,0).position * teta)
-    
+   # 
     def Defenseur(Strategy):
         def __init__(self):
             Strategy.__init__(self,"Def")

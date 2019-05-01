@@ -9,7 +9,7 @@ class RandomStrategy(Strategy):
         return SoccerAction(Vector2D.create_random(-1,1),
                             Vector2D.create_random(-1,1))
 
-
+#
 
 class booba(Strategy):
     def __init__(self):

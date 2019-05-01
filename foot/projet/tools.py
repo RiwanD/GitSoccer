@@ -16,7 +16,7 @@ class superstate(object):
     
 #    def __getattr__(self, attr):
 #       return getattr(self.state, attr)
-        
+        #
 # Balle
     @property
     def ball(self):

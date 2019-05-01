@@ -13,3 +13,4 @@ class DefenseStrategy(Strategy):
 			move = Move(s)
 			shoot = Shoot(s)
 			return move + shoot
+#

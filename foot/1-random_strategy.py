@@ -14,7 +14,7 @@ class RandomStrategy(Strategy):
         # id_player starts at 0
         return SoccerAction(Vector2D.create_random(),
                             Vector2D.create_random())
-
+#
 class Defenseur(Strategy):
     def __init__(Self):
         Strategy.__init__(Self, "Defenseur")

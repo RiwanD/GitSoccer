@@ -14,3 +14,4 @@ def Superstate(object):
         self.state = state
         self.id_player = id_player
         self.id_team = id_team
+#
