@@ -10,7 +10,7 @@ BALL_RADIUS = 0.65
 import soccersimulator
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
 from . import tools
-from projet.tools import superstate
+from tools import superstate
 
 import projet.tools as to
 import math, random

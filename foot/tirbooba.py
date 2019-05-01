@@ -1,5 +1,4 @@
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
-from projet.tools import superstate
 class RandomStrategy(Strategy):
     def __init__(self):
         Strategy.__init__(self, "Random")
@@ -26,15 +25,6 @@ class booba(Strategy):
         else:
             return SoccerAction(state.ball.position-state.player_state(2, 0).position,
                    state.ball.position-state.player_state(2 ,0).position * teta)
-    
-class Defenseur(Strategy):
-        def __init__(self):
-            Strategy.__init__(self,"Def")
-
-        def compute_strategy(self, state, id_team, id_player):
-            defr= superstate.def_ramos
-            return SoccerAction(defr, shoot = None)
-        
 
 
 
@@ -44,7 +34,7 @@ team2 = SoccerTeam(name="Team 2")
 
 # Add players
 team1.add("booba", booba())
-team2.add("Ramos", Defenseur())   # Static strategy
+team2.add("Ramos", RandomStrategy())   # Static strategy
 
 # Create a match
 simu = Simulation(team1, team2)
