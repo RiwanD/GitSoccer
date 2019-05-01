@@ -1,5 +1,7 @@
 # coding: utf-8
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
+#from tools import *
+#from actions import *
 
 
 class RandomStrategy(Strategy):
@@ -19,7 +21,7 @@ team2 = SoccerTeam(name="Team 2")
 
 # Add players
 team1.add("Random", RandomStrategy())  # Random strategy
-team2.add("Static", Strategy())   # Static strategy
+team2.add("Random", RandomStrategy())   # Static strategy
 
 # Create a match
 simu = Simulation(team1, team2)
