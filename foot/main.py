@@ -116,7 +116,7 @@ class Def2v2(Strategy):
         dist_joueur_ball = s.dist_joueur_ball
         near_opp_ball = s.near_opp_ball
         action = move.def_Ramos(pos_joueur, pos_ball, pos_cage, vect_vitesse_joueur)
-        near_mate = s.near_mate[1]
+        near_mate = s.mate_front[0]
         pos_opp = s.opponents_pos
         shoot_poss = s.shoot_poss(pos_joueur, near_mate)
         puissance_tir = 6
@@ -193,10 +193,18 @@ class Attaquant4v4(Strategy):
         if s.team == 1:
             #si la balle est dans le camp adverse
             if(approxi_pos_ball.x >= GAME_WIDTH/2):
-                mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
-                action = mouvement + tir
-                return action
+                #Et qu'un allier a la balle: 
+                if near_mate_ball < near_opp_ball:
+                    mouvement = move.appel(pos_joueur, pos_appel_de_ball)
+                    tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
+                    action = mouvement + tir
+                    return action
+                else:
+                    #Sinon il va tirer
+                    mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
+                    tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
+                    action = mouvement + tir
+                    return action
             else:
                 #si un coequipier peut avoir la balle il fait un appel 
                 if (near_mate_ball < near_opp_ball):
@@ -216,78 +224,18 @@ class Attaquant4v4(Strategy):
         else:
             #si la balle est dans le camp adverse
             if(approxi_pos_ball.x <= GAME_WIDTH/2):
-                mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
-                action = mouvement + tir
-                return action
-            else:
-                #si un coequipier peut avoir la balle il fait un appel 
-                if (near_mate_ball < near_opp_ball):
+                #Et qu'un allier a la balle: 
+                if near_mate_ball < near_opp_ball:
                     mouvement = move.appel(pos_joueur, pos_appel_de_ball)
-                    return mouvement
+                    tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
+                    action = mouvement + tir
+                    return action
                 else:
-                    #S'il est seul il dézone pou faire une passe
-                    if (approxi_pos_ball.x >= 2*GAME_WIDTH/3) and dist_joueur_ball <= near_opp_ball:
-                        mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                        passe = shoot.avancer_avec_ball(pos_joueur, cage_adv, puissance_tir)
-                        return mouvement + passe
-                    #sinon il se replace
-                    else:
-                        mouvement = move.replacement_att(pos_joueur, replacement)
-                        return mouvement
-
-class Attaquant_4v4_2(Strategy):
-    def __init__(self):
-        Strategy.__init__(self, "Attaquant")
-
-    def compute_strategy(self, state, id_team, id_player):
-        # id_team is 1 or 2
-        # id_player starts at 0
-        s = superstate(state, id_team, id_player)
-        move = Move(s)
-        shoot = Shoot(s)
-        pos_ball = s.pos_ball
-        cage_adv = s.cage_adv
-        pos_joueur = s.pos_joueur
-        pos_appel_de_ball = s.appel_de_balle
-        vect_vitesse_joueur = s.vitesse_joueur
-        replacement = s.replacement_att4v4_haut
-        #puissance_tir = shoot.puissance_tir(0.1)
-        approxi_pos_ball = s.approxi_pos_ball
-        puissance_tir = 6
-        near_opp_ball = s.near_opp_ball
-        near_mate_ball = s.near_mate_ball
-        dist_joueur_ball = s.dist_joueur_ball
-        if s.team == 1:
-            #si la balle est dans le camp adverse
-            if(approxi_pos_ball.x >= GAME_WIDTH/2):
-                mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
-                action = mouvement + tir
-                return action
-            else:
-                #si un coequipier peut avoir la balle il fait un appel 
-                if (near_mate_ball < near_opp_ball):
-                    mouvement = move.appel(pos_joueur, pos_appel_de_ball)
-                    return mouvement
-                #sinon il se replace
-                else:
-                    #S'il est seul il dézone pour tirer
-                    if (approxi_pos_ball.x >= GAME_WIDTH/3) and dist_joueur_ball <= near_opp_ball:
-                        mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                        passe = shoot.avancer_avec_ball(pos_joueur, cage_adv, puissance_tir)
-                        return mouvement + passe
-                    #sinon il se replace
-                    else:
-                        mouvement = move.replacement_att(pos_joueur, replacement)
-                        return mouvement
-        else:
-            #si la balle est dans le camp adverse
-            if(approxi_pos_ball.x <= GAME_WIDTH/2):
-                mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
-                action = mouvement + tir
-                return action
+                    #Sinon il va tirer
+                    mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
+                    tir = shoot.goal_shoot(pos_joueur, cage_adv, puissance_tir)
+                    action = mouvement + tir
+                    return action
             else:
                 #si un coequipier peut avoir la balle il fait un appel 
                 if (near_mate_ball < near_opp_ball):
@@ -324,30 +272,40 @@ class Def4v4(Strategy):
         dist_joueur_ball = s.dist_joueur_ball
         near_opp_ball = s.near_opp_ball
         action = move.def_Ramos(pos_joueur, pos_ball, pos_cage, vect_vitesse_joueur)
-        near_mate = s.near_mate[1]
+        near_mate = s.mate_front[0]
+        near_ball_mate = s.near_mate_ball
         pos_opp = s.opponents_pos
         shoot_poss = s.shoot_poss(pos_joueur, near_mate)
+        appel_def = s.replacement_def4v4
         puissance_tir = 6
+        mate_front = s.mate_front[0]
         
         if s.team == 1:
             #si elle est dans son camp:
             if(approxi_pos_ball.x <= GAME_WIDTH/2):
                 #il se met en place pour l'intercepter et fait la passe à l'attaquant
                 approxi_pos_ball = s.pos_ball + 6*s.vitesse_ball
-                if dist_joueur_ball <= near_opp_ball:
+                #Si elle est dans la zone du gardien 
+                if approxi_pos_ball.x < GAME_WIDTH/5:
+                    #Et qu'il a la balle
+                    if  near_ball_mate <= near_opp_ball:
+                        mouvement = move.appel(pos_joueur, appel_def)
+                        return mouvement
+                    #sinon il fonce vers la balle et tente une passe VERS L'AVANT
+                    else:
+                        mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
+                        passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
+                #sinon il va vers la balle faire une passe
+                else :
                     mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
                     return mouvement + passe
-                else: 
-                    defense = move.DeGea_pos(pos_joueur, approxi_pos_ball, pos_cage, vect_vitesse_joueur)
-                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
-                    return defense + passe
             #sinon il se replace
             else:
                 #S'il est seul il dézone pou faire une passe
                 if (approxi_pos_ball.x <= 2*GAME_WIDTH/3) and dist_joueur_ball <= near_opp_ball:
                     mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
                     return mouvement + passe
                 else:
                     defense = move.replacement_def(pos_joueur, replacement_def)
@@ -356,54 +314,33 @@ class Def4v4(Strategy):
             #si elle est dans son camp:
             if(approxi_pos_ball.x >= GAME_WIDTH/2):
                 #il se met en place pour l'intercepter et fait la passe à l'attaquant
-                if dist_joueur_ball <= near_opp_ball:
+                approxi_pos_ball = s.pos_ball + 6*s.vitesse_ball
+                #Si elle est dans la zone du gardien 
+                if approxi_pos_ball.x > 4*GAME_WIDTH/5:
+                    #Et qu'il a la balle
+                    if  near_ball_mate <= near_opp_ball:
+                        mouvement = move.appel(pos_joueur, appel_def)
+                        return mouvement
+                    #sinon il fonce vers la balle et tente une passe VERS L'AVANT
+                    else:
+                        mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
+                        passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
+                #sinon il va vers la balle faire une passe
+                else :
                     mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
                     return mouvement + passe
-                else: 
-                    defense = move.DeGea_pos(pos_joueur, approxi_pos_ball, pos_cage, vect_vitesse_joueur)
-                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
-                    return defense + passe
             #sinon il se replace
             else:
                 #S'il est seul il dézone pou faire une passe
                 if (approxi_pos_ball.x >= GAME_WIDTH/3) and dist_joueur_ball <= near_opp_ball:
                     mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
                     return mouvement + passe
                 else:
                     defense = move.replacement_def(pos_joueur, replacement_def)
-                    return defense      
+                    return defense       
         
-class Def(Strategy):
-    def __init__(self):
-        Strategy.__init__(self, "Def")
-        
-    def compute_strategy(self, state, id_team, id_player):
-        s = superstate(state, id_team, id_player)
-        move = Move(s)
-        shoot = Shoot(s)
-        pos_joueur = s.pos_joueur
-        pos_ball = s.pos_ball
-        pos_cage = s.cage_def
-        corner_haut_opp = s.corner_haut_opp
-        vect_vitesse_joueur = s.vitesse_joueur
-        approxi_pos_ball = s.approxi_pos_ball
-        near_opp_ball = s.near_opp_ball
-        action = move.def_Ramos(pos_joueur, pos_ball, pos_cage, vect_vitesse_joueur)
-        near_mate = s.near_mate[1]
-        pos_opp = s.opponents_pos
-        shoot_poss = s.shoot_poss(pos_joueur, near_mate)
-        
-        if pos_joueur.distance(pos_ball) < near_opp_ball:
-            pos_near = s.near_opp_ball
-            mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-            tir = shoot.passe(pos_joueur, pos_ball, near_mate, near_mate, shoot_poss, corner_haut_opp)
-            return mouvement + tir
-        else:
-            defense = move.def_Ramos(pos_joueur, pos_ball, pos_cage, vect_vitesse_joueur)
-            return defense
-
 class Gardien(Strategy):
     def __init__(self):
         Strategy.__init__(self, "Gardien")
@@ -419,7 +356,7 @@ class Gardien(Strategy):
         approxi_pos_ball = s.pos_ball + 2*s.vitesse_ball
         dist_joueur_ball = s.dist_joueur_ball
         near_opp_ball = s.near_opp_ball
-        near_mate = s.near_mate[1]
+        near_mate = s.mate_front[0]
         puissance_tir = 6.
         replacement = s.replacement_gardien
         #s'il est dans l'équipe une:
@@ -482,32 +419,64 @@ class Milieu(Strategy):
         puissance_tir = shoot.puissance_tir(6)
         vect_vitesse_joueur = s.vitesse_joueur
         approxi_pos_ball = s.pos_ball + 6*s.vitesse_ball
-        #near_ball_mate = s.near_mate_ball[1]
+        near_ball_mate = s.near_mate_ball
         dist_joueur_ball = s.dist_joueur_ball
         near_opp_ball = s.near_opp_ball
         near_mate = s.near_mate[1]
         pos_opp = s.opponents_pos
         zone_pressing = 80
-        mate_front = s.mate_front
+        mate_front = s.mate_front[0]
         shoot_poss = s.shoot_poss(pos_joueur, near_mate)
         pass_poss = s.passe_poss
         opp_opp_balle = s.near_opp2
+        appel = s.replacement_att4v4_bas
         centre = s.centre
-        #Si la balle est proche
-        if dist_joueur_ball <= zone_pressing:
-            #si je suis plus proche de la balle que l'adversaire et qu'elle est dans ma zone, je fais une passe
-            if dist_joueur_ball <= near_opp_ball and pos_ball.x > 2*GAME_WIDTH/5 and pos_ball.x < 3.5*GAME_WIDTH/5:
-                mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
-                passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
-                return mouvement + passe
+        if s.team == 1:
+            #Si la balle est proche
+            if dist_joueur_ball <= zone_pressing:
+                #si je suis plus proche de la balle que l'adversaire et qu'elle est dans ma zone, je fais une passe
+                if dist_joueur_ball <= near_opp_ball and approxi_pos_ball.x > 2*GAME_WIDTH/5 and pos_ball.x < 3.5*GAME_WIDTH/5:
+                    mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
+                    return mouvement + passe
+                else:
+                    #Il se place entre deux adversaires et cherche à faire la passe
+                    mouvement = move.joueur_entre_adv(pos_joueur, s.opponents_pos[len(s.opponents_pos)-1], s.opponents_pos[len(s.opponents_pos)-2])
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
+                    return mouvement + passe
             else:
-                #Il se place entre deux adversaires et cherche à faire la passe
-                mouvement = move.joueur_entre_adv(pos_joueur, s.opponents_pos[len(s.opponents_pos)-1], s.opponents_pos[len(s.opponents_pos)-2])
-                passe = shoot.passe(pos_joueur, pos_ball, near_mate, near_mate, shoot_poss, cage_adv)
-                return mouvement + passe
-        else:
-            #Il se replace au centre
-            mouvement = move.replacement_def(pos_joueur, centre)
+                #Il vient suppleer l'attaquant
+                if approxi_pos_ball.x > 3.5*GAME_WIDTH/5:
+                    mouvement = move.appel(pos_joueur, appel)
+                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
+                    return mouvement + passe
+                else:
+                    #Il se replace au centre
+                    mouvement = move.replacement_def(pos_joueur, centre)
+                    return mouvement
+        else:   
+             #Si la balle est proche
+            if dist_joueur_ball <= zone_pressing:
+                #si je suis plus proche de la balle que l'adversaire et qu'elle est dans ma zone, je fais une passe
+                if dist_joueur_ball <= near_opp_ball and approxi_pos_ball.x < 3*GAME_WIDTH/5 and pos_ball.x > 1.5*GAME_WIDTH/5:
+                    mouvement = move.joueur_vers_ball(pos_joueur, approxi_pos_ball, vect_vitesse_joueur)
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
+                    return mouvement + passe
+                else:
+                    #Il se place entre deux adversaires et cherche à faire la passe
+                    mouvement = move.joueur_entre_adv(pos_joueur, s.opponents_pos[len(s.opponents_pos)-1], s.opponents_pos[len(s.opponents_pos)-2])
+                    passe = shoot.passe2(pos_joueur, mate_front, puissance_tir)
+                    return mouvement + passe
+            else:
+                #Il vient suppleer l'attaquant
+                if approxi_pos_ball.x < 1.5*GAME_WIDTH/5:
+                    mouvement = move.appel(pos_joueur, appel)
+                    passe = shoot.passe2(pos_joueur, near_mate, puissance_tir)
+                    return mouvement + passe
+                else:
+                    #Il se replace au centre
+                    mouvement = move.replacement_def(pos_joueur, centre)
+                    return mouvement
 
     """
     # Add players

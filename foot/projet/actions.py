@@ -71,8 +71,8 @@ class Move(Action):
         return soccersimulator.SoccerAction(acceleration = vect_joueur_ball, shoot = None)
 
     def joueur_entre_adv(self, pos_joueur, opp, next_opp):
-        expected_pos = (opp - next_opp)/2 + opp
-        vect_joueur_entre_opp = expected_pos - pos_joueur
+        expected_pos = opp - next_opp
+        vect_joueur_entre_opp = (expected_pos/2 - pos_joueur) + next_opp
         return soccersimulator.SoccerAction(acceleration = vect_joueur_entre_opp, shoot = None)
     #Gardien
     def replacement_cage_centre(self, pos_joueur, replacement_gardien):

@@ -4,34 +4,29 @@ from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simula
 from projet.actions import Action, Move, Shoot
 from projet.tools import superstate
 from soccersimulator.settings import maxPlayerAcceleration, maxPlayerShoot, PLAYER_RADIUS, BALL_RADIUS
-from . import Gardien
+from main import Gardien, Def2v2, Attaquant2v2, Attaquant4v4, Def4v4, Milieu
+from __main__ import *
 
 def get_team(nb_players):
-	team = SoccerTeam(name="Nicolas&Riwan")
-	if nb_payers == 1:
+	team = SoccerTeam(name="Riwan")
+	if nb_players == 1:
 		team.add("CR7", AttDef())
-	if nb_payers == 2:
-		team1.add("CR7", Attaquant2v2())
-		team1.add("DeGea", Def())
-		team2.add("Messi", Attaquant2v2())
-		team2.add("Lloris", Def())
+	if nb_players == 2:
+		team.add("CR7", Attaquant2v2())
+		team.add("DeGea", Def2v2())
 
-	if nb_payers == 4:
-		team.add("CR7", Gardien())
-		team.add("CR7", Def())
-		team.add("CR7", Milieu())
-		team.add("CR7", Attaquant())
-		team.add("CR7", Gardien())
-		team.add("CR7", Def())
-		team.add("CR7", Milieu())
-		team.add("CR7", Attaquant())
+	if nb_players == 4:
+		team.add("Gardien", Gardien())
+		team.add("Def", Def4v4())
+		team.add("Mil", Milieu())
+		team.add("Att", Attaquant4v4())
 	return team
 #	
 	
 if __name__ == '__main__':
 
-		team1 = get_team(1)
-		team2 = get_team(2)
+		team1 = get_team(4)
+		team2 = get_team(4)
 		
 		simu = Simulation(team1, team2)
 		

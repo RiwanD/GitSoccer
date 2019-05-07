@@ -124,12 +124,15 @@ class superstate(object):
     def mate_front(self):
         mates = self.mate
         if self.team == 1:
-            return [self.state.player_state(id_team, id_player) for (id_team, id_player) in self.state.players 
+            mat =  [self.state.player_state(id_team, id_player).position for (id_team, id_player) in self.state.players 
             if self.state.player_state(id_team, id_player).position.x > self.pos_joueur.x and id_team == self.id_team]
         else:
-            return [self.state.player_state(id_team, id_player) for (id_team, id_player) in self.state.players 
+            mat =  [self.state.player_state(id_team, id_player).position for (id_team, id_player) in self.state.players 
             if self.state.player_state(id_team, id_player).position.x < self.pos_joueur.x and id_team == self.id_team]
-    
+        if mat ==[]:
+            return [self.state.player_state(id_team, id_player).position for (id_team, id_player) in self.state.players]
+        else:
+            return mat
     @property
     def near_mate_ball(self):
         mate = self.mate
@@ -232,9 +235,9 @@ class superstate(object):
     @property
     def replacement_def4v4(self):
         if self.team == 1:
-            return Vector2D(GAME_WIDTH/3, GAME_HEIGHT/2)
+            return Vector2D(GAME_WIDTH/3, GAME_HEIGHT/3)
         else:
-            return Vector2D(2*GAME_WIDTH/3, GAME_HEIGHT/2)
+            return Vector2D(2*GAME_WIDTH/3, GAME_HEIGHT/3)
 
     @property
     def replacement_att2v2(self):
