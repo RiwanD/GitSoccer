@@ -1,5 +1,4 @@
     # -*- coding: utf-8 -*-
-from .__init__ import soccersimulator
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam
 from soccersimulator import settings
 from soccersimulator import utils

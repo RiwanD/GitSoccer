@@ -1,10 +1,9 @@
 # coding: utf-8
 
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
-from projet.actions import Action, Move, Shoot
-from projet.tools import superstate
-from soccersimulator.settings import maxPlayerAcceleration, maxPlayerShoot, PLAYER_RADIUS, BALL_RADIUS
 from strategies import Gardien, Def2v2, Attaquant2v2, Attaquant4v4, Def4v4, Milieu
+
+
 def get_team(nb_players):
 	team = SoccerTeam(name="Riwan")
 	if nb_players == 1:

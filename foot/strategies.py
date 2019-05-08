@@ -3,7 +3,6 @@ from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simula
 from projet.actions import Action, Move, Shoot
 from projet.tools import superstate
 from soccersimulator.settings import maxPlayerAcceleration, maxPlayerShoot, PLAYER_RADIUS, BALL_RADIUS
-
 GAME_WIDTH = 150
 GAME_HEIGHT = 90
 GAME_GOAL_HEIGHT = 10

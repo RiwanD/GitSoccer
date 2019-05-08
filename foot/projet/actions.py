@@ -6,7 +6,8 @@ GAME_GOAL_HEIGHT = 10
 PLAYER_RADIUS = 1.
 BALL_RADIUS = 0.65
 maxPlayerShoot = 6.
-#from . import settings
+
+
 import soccersimulator
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
 from soccersimulator.settings import maxPlayerAcceleration, maxPlayerShoot, PLAYER_RADIUS, BALL_RADIUS
@@ -14,8 +15,6 @@ from . import tools
 from .tools import superstate
 from . import utils
 from soccersimulator.utils import random
-
-import projet.tools as to
 
 import math, random
 
@@ -100,8 +99,8 @@ class Shoot(Action):
 
     def to_goal(self, pos_ball, pos_player,cage_adv, strength):
         vect = cage_adv - pos_player
-        vect.normalize()
-        return soccersimulator.SoccerAction(acceleration = None , shoot = vect * strength)
+        vect_norm = vect.normalize() * strength
+        return soccersimulator.SoccerAction(acceleration = None , shoot = vect_norm)
 
     def goal_shoot(self,pos_joueur, pos_cage_adv, puissance_tir):
         aimed_pos = pos_cage_adv
@@ -117,7 +116,8 @@ class Shoot(Action):
     def shoot_aim(self,pos_joueur, aimed_pos, puissance_tir):
         tir = utils.compute_shoot(aimed_pos, pos_joueur, puissance_tir)
         vect_tir = (aimed_pos - pos_joueur)
-        return soccersimulator.SoccerAction(acceleration=None, shoot = vect_tir)
+        vect_tir_norm = vect_tir.normalize() * puissance_tir
+        return soccersimulator.SoccerAction(acceleration=None, shoot = vect_tir_norm)
 
     def puissance_tir(self, p_tir):
         return p_tir
